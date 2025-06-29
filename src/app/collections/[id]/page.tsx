@@ -7,11 +7,12 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { DEFAULT_BOOK_COVER, DEFAULT_COLLECTION_COVER } from '../../../constants';
 import StarRating from '../../../components/StarRating';
+import CollectionVolumeCard from '../../../components/CollectionVolumeCard';
 
 export default function CollectionPage({ params }: { params: { id: string } }) {
   const collectionId = parseInt(params.id);
   const { getCollectionById, getBooksInCollection, getOwnedBooksCountInCollection, updateBookStatus } = useBooks();
-  const [activeTab, setActiveTab] = useState<'all' | 'owned' | 'missing'>('all');
+  const [activeTab, setActiveTab] = useState<'all' | 'owned'>('all');
 
   const collection = getCollectionById(collectionId);
   if (!collection) {
@@ -28,10 +29,20 @@ export default function CollectionPage({ params }: { params: { id: string } }) {
   // Filtrar livros com base na tab ativa
   const booksToDisplay = activeTab === 'all' 
     ? allBooksInCollection
-    : allBooksInCollection.filter(book => book.status === (activeTab === 'owned' ? 'owned' : 'missing'));
+    : allBooksInCollection.filter(book => book.status === 'owned');
 
   const handleStatusToggle = (bookId: number, currentStatus: 'owned' | 'missing') => {
-    updateBookStatus(bookId, currentStatus === 'owned' ? 'missing' : 'owned');
+    // Verificar se o livro está na visualização atual
+    const book = allBooksInCollection.find(b => b.id === bookId);
+    if (!book) return;
+
+    // Alternar o status
+    const newStatus = currentStatus === 'owned' ? 'missing' : 'owned';
+    updateBookStatus(bookId, newStatus);
+
+    // Atualizar os dados
+    const updatedBooks = getBooksInCollection(collectionId);
+    const updatedOwnedCount = getOwnedBooksCountInCollection(collectionId);
   };
 
   return (
@@ -101,65 +112,31 @@ export default function CollectionPage({ params }: { params: { id: string } }) {
       </div>
 
       <div className="bg-white p-6 rounded-lg shadow-md">
-        <div className="flex border-b mb-6">
-          <button
-            className={`px-4 py-2 font-medium ${activeTab === 'all' ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
-            onClick={() => setActiveTab('all')}
-          >
-            Todos os Volumes ({allBooksInCollection.length})
-          </button>
-          <button
-            className={`px-4 py-2 font-medium ${activeTab === 'owned' ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
-            onClick={() => setActiveTab('owned')}
-          >
-            Tenho ({ownedCount})
-          </button>
-          <button
-            className={`px-4 py-2 font-medium ${activeTab === 'missing' ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
-            onClick={() => setActiveTab('missing')}
-          >
-            Faltando ({collection.totalVolumes - ownedCount})
-          </button>
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex border-b">
+            <button
+              className={`px-4 py-2 font-medium ${activeTab === 'all' ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
+              onClick={() => setActiveTab('all')}
+            >
+              Todos os Volumes ({allBooksInCollection.length})
+            </button>
+            <button
+              className={`px-4 py-2 font-medium ${activeTab === 'owned' ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
+              onClick={() => setActiveTab('owned')}
+            >
+              Tenho ({ownedCount})
+            </button>
+          </div>
+          <p className="text-sm text-gray-500">Passe o mouse para ver opções</p>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {booksToDisplay.map((book) => (
-            <div 
-              key={book.id} 
-              className={`relative border rounded-lg overflow-hidden ${book.status === 'owned' ? '' : 'opacity-70'}`}
-              onClick={() => handleStatusToggle(book.id, book.status)}
-            >
-              <div className="relative aspect-[2/3] w-full">
-                <Image
-                  src={book.coverUrl || DEFAULT_BOOK_COVER}
-                  alt={`${collection.name} Volume ${book.volume}`}
-                  fill
-                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 16vw"
-                  className="object-cover"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = DEFAULT_BOOK_COVER;
-                  }}
-                />
-                <div 
-                  className={`absolute inset-0 flex items-center justify-center ${book.status === 'owned' ? 'bg-black/0 hover:bg-black/20' : 'bg-black/30 hover:bg-black/40'}`}
-                >
-                  {book.status === 'missing' && (
-                    <span className="bg-white/90 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">
-                      Faltando
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="p-2 text-center">
-                <span className="font-semibold">Volume {book.volume}</span>
-                {book.review && (
-                  <div className="flex justify-center mt-1">
-                    <StarRating rating={book.review.overall} size="sm" />
-                  </div>
-                )}
-              </div>
-            </div>
+            <CollectionVolumeCard 
+              key={`${book.id}-${book.status}`} 
+              book={book}
+              updateStatus={handleStatusToggle}
+            />
           ))}
         </div>
       </div>

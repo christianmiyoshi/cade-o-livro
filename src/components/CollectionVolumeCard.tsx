@@ -31,11 +31,11 @@ export default function CollectionVolumeCard({ book, updateStatus }: CollectionV
   };
 
   return (
-    <div className="relative group h-full">
+    <div className="relative group h-full transition-all duration-300">
       <Link 
         href={`/books/${book.id}`} 
         className={`block border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all h-full 
-          ${book.status === 'missing' ? 'opacity-75 grayscale-[30%]' : ''}`}
+          ${book.status === 'missing' ? 'opacity-85 grayscale-[15%] border-amber-100 bg-amber-50' : 'border-green-100'}`}
       >
         <div className="relative aspect-[2/3] w-full">
           <Image
@@ -43,16 +43,16 @@ export default function CollectionVolumeCard({ book, updateStatus }: CollectionV
             alt={`Volume ${book.volume}`}
             fill
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 16vw"
-            className="object-cover"
+            className={`object-cover ${book.status === 'missing' ? 'brightness-95 contrast-95' : ''}`}
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.src = DEFAULT_BOOK_COVER;
             }}
           />
-          <div className={`absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/10 transition-all`}></div>
+          <div className={`absolute inset-0 flex items-center justify-center ${book.status === 'missing' ? 'bg-black/10 group-hover:bg-black/5' : 'bg-black/0 group-hover:bg-black/10'} transition-all`}></div>
 
           {book.status === 'missing' && (
-            <div className="absolute top-0 right-0 bg-amber-500 text-white rounded-bl-lg px-2 py-1 text-xs font-medium shadow-sm">
+            <div className="absolute top-0 right-0 bg-amber-500 text-white rounded-bl-lg px-2 py-1 text-xs font-medium shadow-md">
               Faltando
             </div>
           )}
@@ -77,7 +77,7 @@ export default function CollectionVolumeCard({ book, updateStatus }: CollectionV
         <>
           <button 
             onClick={handleAddBook}
-            className={`absolute bottom-3 right-3 bg-green-500 hover:bg-green-600 text-white rounded-full w-8 h-8 shadow-md flex items-center justify-center transform transition-all ${isAdding ? 'scale-125 opacity-0' : 'opacity-0 group-hover:opacity-100 hover:scale-110'}`}
+            className={`absolute bottom-3 right-3 bg-green-500 hover:bg-green-600 text-white rounded-full w-8 h-8 shadow-md flex items-center justify-center transform transition-all ${isAdding ? 'scale-125 opacity-0' : 'opacity-80 group-hover:opacity-100 hover:scale-110'}`}
             aria-label="Adicionar à coleção"
             title="Adicionar à coleção"
           >

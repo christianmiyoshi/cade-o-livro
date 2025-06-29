@@ -41,6 +41,8 @@ Sistema de gerenciamento de coleção de livros e mangás para usuários brasile
 - Adicionar novos itens à coleção
 - Filtrar por status (tenho/faltantes) em cada coleção
 - Ordenar livros por coleção, ordem alfabética ou data de lançamento
+- Planos gratuito (limite de 50 livros) e premium (ilimitado)
+- Página de perfil com informações da conta
 - Login com OAuth (mockado)
 
 ## Tecnologias Utilizadas

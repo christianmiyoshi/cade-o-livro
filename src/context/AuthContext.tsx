@@ -1,12 +1,13 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from 'react';
-import { UserAuth } from '../types';
+import { UserAuth, SubscriptionPlan } from '../types';
 
 interface AuthContextType {
   user: UserAuth;
   login: () => void;
   logout: () => void;
+  upgradeAccount: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -22,7 +23,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isAuthenticated: true,
       name: asAdmin ? 'Admin' : 'Usuário Demo',
       email: asAdmin ? 'admin@exemplo.com' : 'usuario@exemplo.com',
-      isAdmin: asAdmin
+      isAdmin: asAdmin,
+      plan: asAdmin ? 'premium' : 'free',
+      createdAt: '2024-01-15'
     });
   };
 
@@ -32,8 +35,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const upgradeAccount = () => {
+    // In a real app, this would involve payment processing
+    if (user.isAuthenticated) {
+      setUser({
+        ...user,
+        plan: 'premium'
+      });
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, upgradeAccount }}>
       {children}
     </AuthContext.Provider>
   );

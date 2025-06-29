@@ -2,11 +2,15 @@
 
 import { useState } from 'react';
 import { useBooks } from '../context/BookContext';
+import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function AddBookForm() {
   const router = useRouter();
-  const { addBook, collections } = useBooks();
+  const { addBook, collections, canAddMoreBooks } = useBooks();
+  const { user } = useAuth();
+  const [showLimitError, setShowLimitError] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     author: '',
@@ -28,6 +32,12 @@ export default function AddBookForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Check if user can add more books (only matters if status is 'owned')
+    if (formData.status === 'owned' && !canAddMoreBooks()) {
+      setShowLimitError(true);
+      return;
+    }
+
     const newBook = {
       title: formData.title,
       author: formData.author,
@@ -44,7 +54,12 @@ export default function AddBookForm() {
       });
     }
 
-    addBook(newBook);
+    const success = addBook(newBook);
+
+    if (!success) {
+      setShowLimitError(true);
+      return;
+    }
 
     // Redirecionar para a página apropriada
     if (formData.collectionId) {
@@ -57,6 +72,19 @@ export default function AddBookForm() {
   return (
     <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6 text-center">Adicionar Novo Item</h2>
+
+      {showLimitError && (
+        <div className="bg-red-50 border border-red-200 text-red-800 p-4 rounded-lg mb-6">
+          <h3 className="font-bold text-lg mb-1">Limite de conta atingido</h3>
+          <p className="mb-3">Você atingiu o limite de 50 livros do plano gratuito.</p>
+          <Link 
+            href="/profile"
+            className="block w-full text-center bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition-colors font-medium"
+          >
+            Fazer upgrade para o plano Premium
+          </Link>
+        </div>
+      )}
 
       <div className="mb-4">
         <label htmlFor="title" className="block text-gray-700 font-medium mb-2">Título</label>

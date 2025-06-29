@@ -27,11 +27,15 @@ export type BookStatus = 'owned' | 'missing';
 
 export type CollectionFilter = 'all' | 'complete' | 'incomplete' | 'wanted';
 
+export type SubscriptionPlan = 'free' | 'premium';
+
 export interface UserAuth {
   isAuthenticated: boolean;
   name?: string;
   email?: string;
   isAdmin?: boolean;
+  plan?: SubscriptionPlan;
+  createdAt?: string;
 }
 
 export interface Review {

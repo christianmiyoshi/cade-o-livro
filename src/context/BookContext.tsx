@@ -4,14 +4,15 @@ import { createContext, useContext, useState, ReactNode, useEffect } from 'react
 import { Book, BookStatus, Collection, CollectionFilter, Review } from '../types';
 import { mockBooks, mockCollections, mockStandardBooks, mockStandardCollections } from '../data/mockData';
 import { DEFAULT_BOOK_COVER } from '../constants';
+import { useAuth } from './AuthContext';
 
 interface BookContextType {
   books: Book[];
   collections: Collection[];
   standardBooks: Book[];
   standardCollections: Collection[];
-  addBook: (book: Omit<Book, 'id'>) => void;
-  addCollection: (collection: Omit<Collection, 'id'>) => void;
+  addBook: (book: Omit<Book, 'id'>) => boolean;
+  addCollection: (collection: Omit<Collection, 'id'>) => boolean;
   addStandardBook: (book: Omit<Book, 'id'>) => void;
   addStandardCollection: (collection: Omit<Collection, 'id'>) => void;
   filterBooks: (status?: BookStatus) => Book[];
@@ -20,17 +21,22 @@ interface BookContextType {
   getCollectionById: (collectionId: number) => Collection | undefined;
   searchCollections: (query: string, filter: CollectionFilter) => Collection[];
   addReviewToBook: (bookId: number, review: Review) => void;
-  updateBookStatus: (bookId: number, status: BookStatus) => void;
+  updateBookStatus: (bookId: number, status: BookStatus) => boolean;
   calculateCollectionRating: (collectionId: number) => number;
+  canAddMoreBooks: () => boolean;
 }
 
 const BookContext = createContext<BookContextType | undefined>(undefined);
 
 export function BookProvider({ children }: { children: ReactNode }) {
+  const { user } = useAuth();
   const [books, setBooks] = useState<Book[]>([]);
   const [collections, setCollections] = useState<Collection[]>([]);
   const [standardBooks, setStandardBooks] = useState<Book[]>([]);
   const [standardCollections, setStandardCollections] = useState<Collection[]>([]);
+
+  // Free plan limit
+  const FREE_PLAN_LIMIT = 50;
 
   useEffect(() => {
     // Carregar dados mockados quando o componente montar
@@ -40,21 +46,39 @@ export function BookProvider({ children }: { children: ReactNode }) {
     setStandardCollections(mockStandardCollections);
   }, []);
 
+  // Check if user can add more books based on their plan
+  const canAddMoreBooks = () => {
+    if (user.plan === 'premium') return true;
+    return books.length < FREE_PLAN_LIMIT;
+  };
+
   const addBook = (bookData: Omit<Book, 'id'>) => {
+    // Check if user has reached their limit
+    if (!canAddMoreBooks()) {
+      return false;
+    }
+
     const newBook = {
       ...bookData,
       id: books.length > 0 ? Math.max(...books.map(book => book.id)) + 1 : 1,
       coverUrl: bookData.coverUrl || DEFAULT_BOOK_COVER
     };
     setBooks([...books, newBook]);
+    return true;
   };
 
   const addCollection = (collectionData: Omit<Collection, 'id'>) => {
+    // Collections don't count towards the limit, but we'll check anyway for consistency
+    if (!canAddMoreBooks()) {
+      return false;
+    }
+
     const newCollection = {
       ...collectionData,
       id: collections.length > 0 ? Math.max(...collections.map(collection => collection.id)) + 1 : 1
     };
     setCollections([...collections, newCollection]);
+    return true;
   };
 
   const addStandardBook = (bookData: Omit<Book, 'id'>) => {
@@ -147,6 +171,11 @@ export function BookProvider({ children }: { children: ReactNode }) {
     // Find the book before updating to get its information
     const bookToUpdate = books.find(b => b.id === bookId);
 
+    // If changing from missing to owned, check if user has reached their limit
+    if (bookToUpdate?.status === 'missing' && status === 'owned' && !canAddMoreBooks()) {
+      return false;
+    }
+
     setBooks(prevBooks => 
       prevBooks.map(book => 
         book.id === bookId
@@ -217,7 +246,8 @@ export function BookProvider({ children }: { children: ReactNode }) {
       searchCollections,
       addReviewToBook,
       updateBookStatus,
-      calculateCollectionRating
+      calculateCollectionRating,
+      canAddMoreBooks
     }}>
       {children}
     </BookContext.Provider>

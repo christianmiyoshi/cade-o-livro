@@ -23,7 +23,12 @@ export default function Navbar() {
 
           {user.isAuthenticated ? (
             <div className="flex items-center space-x-2">
-              <span className="text-sm hidden md:inline">{user.name}</span>
+              <Link href="/profile" className="text-sm hidden md:inline hover:text-indigo-200 flex items-center gap-1">
+                <span>{user.name}</span>
+                {user.plan === 'premium' && (
+                  <span className="text-yellow-300 text-xs">✨</span>
+                )}
+              </Link>
               {user.isAdmin && (
                 <Link 
                   href="/admin"
@@ -32,9 +37,15 @@ export default function Navbar() {
                   Admin
                 </Link>
               )}
+              <Link 
+                href="/profile"
+                className="bg-white text-indigo-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-indigo-100 mr-2"
+              >
+                Minha Conta
+              </Link>
               <button 
                 onClick={logout}
-                className="bg-white text-indigo-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-indigo-100"
+                className="bg-transparent border border-white text-white px-3 py-1 rounded-md text-sm font-medium hover:bg-white hover:bg-opacity-10"
               >
                 Sair
               </button>

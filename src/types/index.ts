@@ -2,7 +2,6 @@ export interface Book {
   id: number;
   title: string;
   author: string;
-  coverUrl: string;
   status: 'owned' | 'missing';
   type: 'book' | 'manga';
   collectionId?: number;
@@ -15,7 +14,6 @@ export interface Collection {
   id: number;
   name: string;
   author: string;
-  coverUrl: string;
   type: 'book' | 'manga';
   totalVolumes: number;
   isComplete?: boolean; // Se todos os volumes estão na coleção

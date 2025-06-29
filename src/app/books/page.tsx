@@ -219,7 +219,7 @@ export default function BooksPage() {
           <p className="text-lg text-gray-600">Nenhum livro encontrado.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {displayedBooks.map((book) => (
             <BookCardSmall 
               key={book.id} 

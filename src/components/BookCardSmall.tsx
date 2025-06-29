@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { Book } from '../types';
 import { useBooks } from '../context/BookContext';
-import { DEFAULT_BOOK_COVER } from '../constants';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
+import StarRating from './StarRating';
 
 interface BookCardSmallProps {
   book: Book;
@@ -38,41 +38,51 @@ export default function BookCardSmall({ book }: BookCardSmallProps) {
     <div className="relative group h-full">
       <Link 
         href={`/books/${book.id}`} 
-        className={`block border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all h-full ${book.status === 'missing' ? 'opacity-75 grayscale-[30%] border-amber-100' : 'border-green-100'}`}
+        className={`block border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all h-full ${book.status === 'owned' ? 'border-green-200 bg-gradient-to-br from-green-100 to-green-50' : 'border-amber-200 bg-gradient-to-br from-amber-100 to-amber-50'}`}
       >
-      <div className="relative">
-        <div className="aspect-[2/3] relative">
-          <img 
-            src={book.coverUrl || collection?.coverUrl || DEFAULT_BOOK_COVER} 
-            alt={book.title}
-            className={`object-cover w-full h-full ${book.status === 'missing' ? 'brightness-110 contrast-85 saturate-75' : ''}`}
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.src = DEFAULT_BOOK_COVER;
-            }}
-          />
+        <div className="p-3 flex flex-col h-full relative">
+          {/* Título e autor na parte superior */}
+          <div className="mb-1">
+            <h3 className="font-medium text-sm line-clamp-2 group-hover:text-indigo-700 transition-colors">
+              {book.title}
+            </h3>
+            <p className="text-xs text-gray-600 line-clamp-1">{book.author}</p>
+          </div>
+
+          {/* Informação de coleção se disponível */}
+          {collection && (
+            <div className="mt-1 mb-1 py-1 px-2 bg-indigo-50 border border-indigo-100 rounded text-xs">
+              <div className="flex justify-between items-center">
+                <span className="text-indigo-800 font-medium truncate">
+                  {collection.name}
+                </span>
+                {book.volume && (
+                  <span className="ml-1 bg-indigo-100 text-indigo-800 px-1.5 py-0.5 rounded-full font-medium flex-shrink-0">
+                    {book.volume}/{collection.totalVolumes}
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Rodapé com status e avaliação */}
+          <div className="mt-auto pt-1 flex items-center justify-between">
+            <span className={`text-xs px-2 py-0.5 rounded-full ${book.status === 'owned' ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800'}`}>
+              {book.status === 'owned' ? 'Tenho' : 'Faltando'}
+            </span>
+
+            {book.review && (
+              <div className="flex items-center">
+                <StarRating rating={book.review.overall} size="xs" />
+                <span className="text-xs text-gray-500 ml-0.5">({book.review.overall.toFixed(1)})</span>
+              </div>
+            )}
+          </div>
+
+          {/* Marcador visual no canto */}
+          <div className={`absolute top-0 right-0 w-0 h-0 border-t-[25px] ${book.status === 'owned' ? 'border-t-green-200' : 'border-t-amber-200'} border-l-[25px] border-l-transparent`}></div>
         </div>
-        {book.status === 'missing' && (
-          <div className="absolute top-0 right-0 bg-amber-500 text-white rounded-bl-lg px-2 py-1 text-xs font-medium shadow-sm">
-            Faltando
-          </div>
-        )}
-        {book.status === 'owned' && (
-          <div className="absolute top-0 right-0 bg-green-500 text-white rounded-bl-lg px-2 py-1 text-xs font-medium shadow-sm">
-            Tenho
-          </div>
-        )}
-        {book.volume && (
-          <div className="absolute bottom-0 right-0 bg-indigo-500 text-white rounded-tl-lg px-2 py-1 text-xs font-medium">
-            Vol. {book.volume}
-          </div>
-        )}
-      </div>
-      <div className="p-2">
-        <h3 className="font-medium text-sm truncate">{book.title}</h3>
-        <p className="text-xs text-gray-500 truncate">{book.author}</p>
-      </div>
-    </Link>
+      </Link>
 
     {/* Add to collection button for missing books */}
     {book.status === 'missing' && (

@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { Review } from '../types';
-import { REVIEW_CRITERIA } from '../constants';
 import StarRating from './StarRating';
+import {REVIEW_CRITERIA} from "../constants";
 
 interface ReviewFormProps {
   initialReview?: Review;
@@ -18,17 +18,13 @@ export default function ReviewForm({ initialReview, onSubmit, bookType }: Review
       print: initialReview.print,
       binding: initialReview.binding,
       cover: initialReview.cover,
-      translation: initialReview.translation || 0,
-      layout: initialReview.layout,
-      durability: initialReview.durability
+      translation: initialReview.translation,
     } : {
       paper: 0,
       print: 0,
       binding: 0,
       cover: 0,
       translation: 0,
-      layout: 0,
-      durability: 0
     }
   );
 
@@ -62,8 +58,6 @@ export default function ReviewForm({ initialReview, onSubmit, bookType }: Review
       print: ratings.print,
       binding: ratings.binding,
       cover: ratings.cover,
-      layout: ratings.layout,
-      durability: ratings.durability,
       comment: comment.trim() || undefined
     };
 
@@ -106,7 +100,7 @@ export default function ReviewForm({ initialReview, onSubmit, bookType }: Review
         <textarea
           id="comment"
           rows={3}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
         />

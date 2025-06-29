@@ -2,10 +2,8 @@
 
 import { useBooks } from '../../../context/BookContext';
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { DEFAULT_BOOK_COVER, DEFAULT_COLLECTION_COVER } from '../../../constants';
 import StarRating from '../../../components/StarRating';
 import CollectionVolumeCard from '../../../components/CollectionVolumeCard';
 
@@ -47,19 +45,52 @@ export default function CollectionPage({ params }: { params: { id: string } }) {
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row gap-8">
         <div className="md:w-1/3 lg:w-1/4">
-          <div className="relative aspect-[2/3] w-full max-w-xs mx-auto">
-            <Image
-              src={collection.coverUrl || DEFAULT_COLLECTION_COVER}
-              alt={collection.name}
-              fill
-              className="object-cover rounded-lg shadow-lg"
-              sizes="(max-width: 768px) 100vw, 300px"
-              priority
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = DEFAULT_COLLECTION_COVER;
-              }}
-            />
+          <div className="w-full max-w-xs mx-auto rounded-lg shadow-lg overflow-hidden">
+            <div className="bg-indigo-50 border border-indigo-200 p-5 flex flex-col">
+              <div className="text-center mb-4">
+                <span className="px-3 py-1 bg-gray-100 rounded-full text-sm inline-block">
+                  {collection.type === 'book' ? 'Coleção de Livros' : 'Coleção de Mangá'}
+                </span>
+              </div>
+
+              <div className="text-center mb-4">
+                <h2 className="text-xl font-bold">{collection.name}</h2>
+                <p className="text-gray-600 mt-1">{collection.author}</p>
+              </div>
+
+              <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 mb-4">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="font-medium">Progresso:</span>
+                  <span className="font-semibold">{ownedCount} de {collection.totalVolumes}</span>
+                </div>
+
+                <div className="w-full bg-gray-200 rounded-full h-2.5 mb-2">
+                  <div 
+                    className="bg-indigo-600 h-2.5 rounded-full" 
+                    style={{ width: `${completionPercentage}%` }}
+                  ></div>
+                </div>
+
+                <div className="flex justify-between items-center text-xs text-gray-500">
+                  <span>{completionPercentage}% completo</span>
+                  <span>{collection.totalVolumes - ownedCount} volumes faltando</span>
+                </div>
+              </div>
+
+              {collection.averageRating && collection.averageRating > 0 && (
+                <div className="flex justify-center items-center gap-2 mb-4">
+                  <StarRating rating={collection.averageRating} size="lg" />
+                  <span className="text-gray-500">({collection.averageRating.toFixed(1)})</span>
+                </div>
+              )}
+
+              <Link 
+                href="/add" 
+                className="mt-auto py-2 px-4 bg-indigo-100 text-indigo-700 rounded-md text-center hover:bg-indigo-200 transition-colors"
+              >
+                Adicionar novo volume
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -137,7 +168,7 @@ export default function CollectionPage({ params }: { params: { id: string } }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {booksToDisplay.map((book) => (
             <div key={`${book.id}-${book.status}-${refreshKey}`}>
               <CollectionVolumeCard 

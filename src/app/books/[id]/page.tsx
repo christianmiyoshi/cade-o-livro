@@ -3,9 +3,7 @@
 import { useBooks } from '../../../context/BookContext';
 import { useState, use } from 'react';
 import { notFound, useRouter } from 'next/navigation';
-import Image from 'next/image';
 import Link from 'next/link';
-import { DEFAULT_BOOK_COVER } from '../../../constants';
 import StarRating from '../../../components/StarRating';
 import ReviewForm from '../../../components/ReviewForm';
 
@@ -36,19 +34,48 @@ import ReviewForm from '../../../components/ReviewForm';
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row gap-8">
         <div className="md:w-1/3 lg:w-1/4">
-          <div className="relative aspect-[2/3] w-full max-w-xs mx-auto">
-            <Image
-              src={book.coverUrl || DEFAULT_BOOK_COVER}
-              alt={book.title}
-              fill
-              className="object-cover rounded-lg shadow-lg"
-              sizes="(max-width: 768px) 100vw, 300px"
-              priority
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = DEFAULT_BOOK_COVER;
-              }}
-            />
+          <div className="w-full max-w-xs mx-auto rounded-lg shadow-lg overflow-hidden">
+            <div className={`h-full ${book.status === 'owned' ? 'bg-green-50 border-green-200' : 'bg-amber-50 border-amber-200'} border p-5 flex flex-col`}>
+              <div className="flex justify-between items-start mb-4">
+                <span className="px-3 py-1 bg-gray-100 rounded-full text-sm">
+                  {book.type === 'book' ? 'Livro' : 'Mangá'}
+                </span>
+                <span className={`px-3 py-1 rounded-full text-sm ${book.status === 'owned' ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800'}`}>
+                  {book.status === 'owned' ? 'Tenho' : 'Faltando'}
+                </span>
+              </div>
+
+              {book.volume && (
+                <div className="mb-4 text-center">
+                  <span className="text-2xl font-bold px-4 py-2 bg-indigo-100 text-indigo-800 rounded-lg inline-block">
+                    Volume {book.volume}
+                  </span>
+                </div>
+              )}
+
+              {collection && (
+                <div className="mb-4 p-3 bg-indigo-50 rounded-lg text-center border border-indigo-100">
+                  <p className="text-sm font-medium text-indigo-800">Parte da coleção:</p>
+                  <p className="font-medium">{collection.name}</p>
+                </div>
+              )}
+
+              {book.review && (
+                <div className="flex justify-center mt-4 mb-2">
+                  <div className="flex items-center gap-2">
+                    <StarRating rating={book.review.overall} size="lg" />
+                    <span className="text-gray-500">({book.review.overall.toFixed(1)})</span>
+                  </div>
+                </div>
+              )}
+
+              <button
+                onClick={toggleStatus}
+                className={`mt-auto py-2 px-4 rounded-md w-full ${book.status === 'owned' ? 'bg-amber-100 text-amber-800 hover:bg-amber-200' : 'bg-green-100 text-green-800 hover:bg-green-200'} transition-colors`}
+              >
+                {book.status === 'owned' ? 'Marcar como faltante' : 'Adicionar à coleção'}
+              </button>
+            </div>
           </div>
         </div>
 

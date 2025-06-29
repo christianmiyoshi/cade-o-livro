@@ -16,10 +16,13 @@ export default function Navbar() {
         </Link>
 
         <div className="flex space-x-4 items-center">
+          <Link href="/landing" className="hover:text-indigo-200">Home</Link>
           <Link href="/" className="hover:text-indigo-200">Dashboard</Link>
           <Link href="/collections" className="hover:text-indigo-200">Coleções</Link>
           <Link href="/books" className="hover:text-indigo-200">Livros</Link>
           <Link href="/add" className="hover:text-indigo-200">Adicionar</Link>
+          <Link href="/about" className="hover:text-indigo-200">Sobre</Link>
+          <Link href="/pricing" className="hover:text-indigo-200">Preços</Link>
 
           {user.isAuthenticated ? (
             <div className="flex items-center space-x-2">

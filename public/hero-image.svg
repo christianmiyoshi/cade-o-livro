@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" fill="none">
+  <g>
+    <!-- Bookshelf background -->
+    <rect x="100" y="100" width="600" height="400" rx="10" fill="#4F46E5" opacity="0.1"/>
+
+    <!-- Bookshelf -->
+    <rect x="150" y="150" width="500" height="300" rx="5" fill="#F3F4F6" stroke="#4F46E5" stroke-width="2"/>
+
+    <!-- Shelf dividers -->
+    <line x1="150" y1="250" x2="650" y2="250" stroke="#4F46E5" stroke-width="2"/>
+    <line x1="150" y1="350" x2="650" y2="350" stroke="#4F46E5" stroke-width="2"/>
+
+    <!-- Books on top shelf -->
+    <rect x="170" y="170" width="30" height="70" rx="2" fill="#EC4899"/>
+    <rect x="205" y="160" width="25" height="80" rx="2" fill="#8B5CF6"/>
+    <rect x="235" y="175" width="40" height="65" rx="2" fill="#10B981"/>
+    <rect x="280" y="165" width="20" height="75" rx="2" fill="#F59E0B"/>
+    <rect x="305" y="170" width="35" height="70" rx="2" fill="#3B82F6"/>
+    <rect x="345" y="175" width="25" height="65" rx="2" fill="#EF4444"/>
+    <rect x="375" y="160" width="30" height="80" rx="2" fill="#6366F1"/>
+    <rect x="410" y="170" width="20" height="70" rx="2" fill="#8B5CF6"/>
+    <rect x="435" y="165" width="35" height="75" rx="2" fill="#EC4899"/>
+    <rect x="475" y="170" width="25" height="70" rx="2" fill="#10B981"/>
+    <rect x="505" y="175" width="30" height="65" rx="2" fill="#F59E0B"/>
+    <rect x="540" y="160" width="20" height="80" rx="2" fill="#3B82F6"/>
+    <rect x="565" y="170" width="35" height="70" rx="2" fill="#EF4444"/>
+    <rect x="605" y="165" width="25" height="75" rx="2" fill="#8B5CF6"/>
+
+    <!-- Books on middle shelf -->
+    <rect x="180" y="270" width="40" height="70" rx="2" fill="#3B82F6"/>
+    <rect x="225" y="260" width="30" height="80" rx="2" fill="#10B981"/>
+    <rect x="260" y="275" width="25" height="65" rx="2" fill="#F59E0B"/>
+    <rect x="290" y="265" width="35" height="75" rx="2" fill="#EC4899"/>
+    <rect x="330" y="270" width="25" height="70" rx="2" fill="#8B5CF6"/>
+    <rect x="360" y="275" width="40" height="65" rx="2" fill="#EF4444"/>
+    <rect x="405" y="260" width="20" height="80" rx="2" fill="#6366F1"/>
+    <rect x="430" y="270" width="30" height="70" rx="2" fill="#10B981"/>
+    <rect x="465" y="265" width="25" height="75" rx="2" fill="#F59E0B"/>
+    <rect x="495" y="270" width="35" height="70" rx="2" fill="#EC4899"/>
+    <rect x="535" y="275" width="30" height="65" rx="2" fill="#8B5CF6"/>
+    <rect x="570" y="265" width="25" height="75" rx="2" fill="#EF4444"/>
+    <rect x="600" y="270" width="30" height="70" rx="2" fill="#3B82F6"/>
+
+    <!-- Books on bottom shelf (manga style) -->
+    <rect x="175" y="370" width="15" height="70" rx="2" fill="#8B5CF6"/>
+    <rect x="195" y="370" width="15" height="70" rx="2" fill="#8B5CF6"/>
+    <rect x="215" y="370" width="15" height="70" rx="2" fill="#8B5CF6"/>
+    <rect x="235" y="370" width="15" height="70" rx="2" fill="#8B5CF6"/>
+    <rect x="255" y="370" width="15" height="70" rx="2" fill="#8B5CF6"/>
+    <rect x="275" y="370" width="15" height="70" rx="2" fill="#10B981"/>
+    <rect x="295" y="370" width="15" height="70" rx="2" fill="#10B981"/>
+    <rect x="315" y="370" width="15" height="70" rx="2" fill="#10B981"/>
+    <rect x="335" y="370" width="15" height="70" rx="2" fill="#10B981"/>
+    <rect x="355" y="370" width="15" height="70" rx="2" fill="#10B981"/>
+    <rect x="375" y="370" width="15" height="70" rx="2" fill="#EC4899"/>
+    <rect x="395" y="370" width="15" height="70" rx="2" fill="#EC4899"/>
+    <rect x="415" y="370" width="15" height="70" rx="2" fill="#EC4899"/>
+    <rect x="435" y="370" width="15" height="70" rx="2" fill="#EC4899"/>
+    <rect x="455" y="370" width="15" height="70" rx="2" fill="#EC4899"/>
+    <rect x="475" y="370" width="15" height="70" rx="2" fill="#F59E0B"/>
+    <rect x="495" y="370" width="15" height="70" rx="2" fill="#F59E0B"/>
+    <rect x="515" y="370" width="15" height="70" rx="2" fill="#F59E0B"/>
+    <rect x="535" y="370" width="15" height="70" rx="2" fill="#F59E0B"/>
+    <rect x="555" y="370" width="15" height="70" rx="2" fill="#F59E0B"/>
+    <rect x="575" y="370" width="15" height="70" rx="2" fill="#3B82F6"/>
+    <rect x="595" y="370" width="15" height="70" rx="2" fill="#3B82F6"/>
+    <rect x="615" y="370" width="15" height="70" rx="2" fill="#3B82F6"/>
+
+    <!-- Checking marks on some books -->
+    <circle cx="280" cy="215" r="10" fill="#16A34A" opacity="0.8"/>
+    <path d="M275 215L278 218L285 211" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <circle cx="345" cy="215" r="10" fill="#16A34A" opacity="0.8"/>
+    <path d="M340 215L343 218L350 211" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <circle cx="435" cy="215" r="10" fill="#16A34A" opacity="0.8"/>
+    <path d="M430 215L433 218L440 211" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <circle cx="225" cy="315" r="10" fill="#16A34A" opacity="0.8"/>
+    <path d="M220 315L223 318L230 311" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <circle cx="360" cy="315" r="10" fill="#16A34A" opacity="0.8"/>
+    <path d="M355 315L358 318L365 311" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <circle cx="195" cy="405" r="8" fill="#16A34A" opacity="0.8"/>
+    <path d="M191 405L194 408L199 403" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <circle cx="235" cy="405" r="8" fill="#16A34A" opacity="0.8"/>
+    <path d="M231 405L234 408L239 403" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <circle cx="315" cy="405" r="8" fill="#16A34A" opacity="0.8"/>
+    <path d="M311 405L314 408L319 403" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <circle cx="395" cy="405" r="8" fill="#16A34A" opacity="0.8"/>
+    <path d="M391 405L394 408L399 403" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <circle cx="455" cy="405" r="8" fill="#16A34A" opacity="0.8"/>
+    <path d="M451 405L454 408L459 403" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Missing marks on some books -->
+    <circle cx="540" cy="215" r="10" fill="#F59E0B" opacity="0.8"/>
+    <path d="M535 210L545 220M545 210L535 220" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <circle cx="290" cy="315" r="10" fill="#F59E0B" opacity="0.8"/>
+    <path d="M285 310L295 320M295 310L285 320" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <circle cx="495" cy="315" r="10" fill="#F59E0B" opacity="0.8"/>
+    <path d="M490 310L500 320M500 310L490 320" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <circle cx="215" cy="405" r="8" fill="#F59E0B" opacity="0.8"/>
+    <path d="M211 401L219 409M219 401L211 409" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <circle cx="335" cy="405" r="8" fill="#F59E0B" opacity="0.8"/>
+    <path d="M331 401L339 409M339 401L331 409" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <circle cx="415" cy="405" r="8" fill="#F59E0B" opacity="0.8"/>
+    <path d="M411 401L419 409M419 401L411 409" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <circle cx="535" cy="405" r="8" fill="#F59E0B" opacity="0.8"/>
+    <path d="M531 401L539 409M539 401L531 409" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- App UI elements -->
+    <rect x="350" y="50" width="200" height="40" rx="8" fill="#4F46E5"/>
+    <text x="450" y="75" font-family="Arial" font-size="16" fill="white" text-anchor="middle">Cadê Meu Livro?</text>
+
+    <!-- Decorative elements -->
+    <circle cx="130" cy="130" r="15" fill="#4F46E5" opacity="0.3"/>
+    <circle cx="670" cy="480" r="20" fill="#EC4899" opacity="0.3"/>
+    <circle cx="170" cy="480" r="10" fill="#10B981" opacity="0.3"/>
+    <circle cx="670" cy="130" r="10" fill="#F59E0B" opacity="0.3"/>
+  </g>
+</svg>

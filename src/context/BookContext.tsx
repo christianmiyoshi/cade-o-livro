@@ -61,7 +61,8 @@ export function BookProvider({ children }: { children: ReactNode }) {
     const newBook = {
       ...bookData,
       id: books.length > 0 ? Math.max(...books.map(book => book.id)) + 1 : 1,
-      coverUrl: bookData.coverUrl || DEFAULT_BOOK_COVER
+      // We're not using coverUrl anymore, but keep it for backward compatibility
+      coverUrl: bookData.coverUrl || ''
     };
     setBooks([...books, newBook]);
     return true;

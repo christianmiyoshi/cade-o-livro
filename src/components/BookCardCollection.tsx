@@ -1,15 +1,13 @@
 import Link from 'next/link';
 import { Book } from '../types';
 import { useBooks } from '../context/BookContext';
-import { DEFAULT_BOOK_COVER } from '../constants';
 import { useState } from 'react';
 
 interface BookCardCollectionProps {
   book: Book;
-  collectionCoverUrl?: string;
 }
 
-export default function BookCardCollection({ book, collectionCoverUrl }: BookCardCollectionProps) {
+export default function BookCardCollection({ book }: BookCardCollectionProps) {
   const { getCollectionById, updateBookStatus } = useBooks();
   const collection = book.collectionId ? getCollectionById(book.collectionId) : undefined;
   const [isAdding, setIsAdding] = useState(false);
@@ -39,47 +37,43 @@ export default function BookCardCollection({ book, collectionCoverUrl }: BookCar
     <div className="relative group h-full">
       <Link 
         href={`/books/${book.id}`} 
-        className={`block border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all h-full ${book.status === 'missing' ? 'opacity-75 grayscale-[30%] border-amber-100' : 'border-green-100'}`}
+        className={`block border-2 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all h-full ${book.status === 'owned' ? 'border-green-400 bg-white' : 'border-amber-400 bg-white'}`}
       >
-      <div className="relative">
-        <div className="aspect-[2/3] relative">
-          <img 
-            src={book.coverUrl || collectionCoverUrl || DEFAULT_BOOK_COVER} 
-            alt={`Volume ${book.volume}`}
-            className={`object-cover w-full h-full ${book.status === 'missing' ? 'brightness-110 contrast-85 saturate-75' : ''}`}
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.src = DEFAULT_BOOK_COVER;
-            }}
-          />
+        <div className="p-3 flex flex-col h-full relative">
+          {/* Volume destacado */}
+          <div className="flex justify-between items-center mb-2">
+            <div className="bg-indigo-100 rounded-md px-2 py-1 inline-flex items-center">
+              <span className="text-indigo-800 font-bold">Volume {book.volume}</span>
+            </div>
+            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${book.status === 'owned' ? 'bg-green-500 text-white' : 'bg-amber-500 text-white'}`}>
+              {book.status === 'owned' ? 'Tenho' : 'Faltando'}
+            </span>
+          </div>
+
+          {/* Título do livro */}
+          <h3 className="text-sm font-medium line-clamp-2 group-hover:text-indigo-600 transition-colors">
+            {book.title}
+          </h3>
+
+          {/* Avaliação se disponível */}
+          {book.review && (
+            <div className="mt-auto pt-1.5 flex items-center gap-1">
+              <StarRating rating={book.review.overall} size="xs" />
+              <span className="text-xs text-gray-500">({book.review.overall.toFixed(1)})</span>
+            </div>
+          )}
+
+          {/* Indicador visual de status */}
+          <div className={`absolute top-0 left-0 w-1.5 h-full ${book.status === 'owned' ? 'bg-green-500' : 'bg-amber-500'}`}></div>
         </div>
-        {book.status === 'missing' && (
-          <div className="absolute top-0 right-0 bg-amber-500 text-white rounded-bl-lg px-2 py-1 text-xs font-medium shadow-sm">
-            Faltando
-          </div>
-        )}
-        {book.status === 'owned' && (
-          <div className="absolute top-0 right-0 bg-green-500 text-white rounded-bl-lg px-2 py-1 text-xs font-medium shadow-sm">
-            Tenho
-          </div>
-        )}
-        {book.volume && (
-          <div className="absolute bottom-0 right-0 bg-indigo-500 text-white rounded-tl-lg px-2 py-1 text-xs font-medium">
-            Vol. {book.volume}
-          </div>
-        )}
-      </div>
-      <div className="p-2 text-center">
-        <h3 className="font-medium text-sm truncate">Volume {book.volume}</h3>
-      </div>
-    </Link>
+      </Link>
 
     {/* Add to collection button for missing books */}
     {book.status === 'missing' && (
       <>
         <button 
           onClick={handleAddBook}
-          className={`absolute bottom-3 right-3 bg-green-500 hover:bg-green-600 text-white rounded-full w-8 h-8 shadow-md flex items-center justify-center transform transition-all ${isAdding ? 'scale-125 opacity-0' : 'opacity-0 group-hover:opacity-100 hover:scale-110'}`}
+          className={`absolute bottom-3 right-3 bg-green-500 hover:bg-green-600 text-white rounded-full w-8 h-8 shadow-md flex items-center justify-center transform transition-all ${isAdding ? 'scale-125 opacity-0' : 'opacity-100 hover:scale-110'}`}
           aria-label="Adicionar à coleção"
           title="Adicionar à coleção"
         >
@@ -105,7 +99,7 @@ export default function BookCardCollection({ book, collectionCoverUrl }: BookCar
       <>
         <button 
           onClick={handleRemoveBook}
-          className={`absolute bottom-3 right-3 bg-amber-500 hover:bg-amber-600 text-white rounded-full w-8 h-8 shadow-md flex items-center justify-center transform transition-all ${isRemoving ? 'scale-125 opacity-0' : 'opacity-0 group-hover:opacity-100 hover:scale-110'}`}
+          className={`absolute bottom-3 right-3 bg-amber-500 hover:bg-amber-600 text-white rounded-full w-8 h-8 shadow-md flex items-center justify-center transform transition-all ${isRemoving ? 'scale-125 opacity-0' : 'opacity-100 hover:scale-110'}`}
           aria-label="Marcar como faltante"
           title="Marcar como faltante"
         >

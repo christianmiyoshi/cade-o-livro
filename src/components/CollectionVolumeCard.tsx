@@ -77,7 +77,7 @@ export default function CollectionVolumeCard({ book, updateStatus }: CollectionV
         <>
           <button 
             onClick={handleAddBook}
-            className={`absolute bottom-3 right-3 bg-green-500 hover:bg-green-600 text-white rounded-full w-8 h-8 shadow-md flex items-center justify-center transform transition-all ${isAdding ? 'scale-125 opacity-0' : 'opacity-80 group-hover:opacity-100 hover:scale-110'}`}
+            className={`absolute bottom-3 right-3 bg-green-500 hover:bg-green-600 text-white rounded-full w-8 h-8 shadow-md flex items-center justify-center transform transition-all ${isAdding ? 'scale-125 opacity-0' : 'opacity-90 hover:scale-110'}`}
             aria-label="Adicionar à coleção"
             title="Adicionar à coleção"
           >
@@ -103,7 +103,7 @@ export default function CollectionVolumeCard({ book, updateStatus }: CollectionV
         <>
           <button 
             onClick={handleRemoveBook}
-            className={`absolute bottom-3 right-3 bg-amber-500 hover:bg-amber-600 text-white rounded-full w-8 h-8 shadow-md flex items-center justify-center transform transition-all ${isRemoving ? 'scale-125 opacity-0' : 'opacity-0 group-hover:opacity-100 hover:scale-110'}`}
+            className={`absolute bottom-3 right-3 bg-amber-500 hover:bg-amber-600 text-white rounded-full w-8 h-8 shadow-md flex items-center justify-center transform transition-all ${isRemoving ? 'scale-125 opacity-0' : 'opacity-0 group-hover:opacity-90 hover:scale-110'}`}
             aria-label="Marcar como faltante"
             title="Marcar como faltante"
           >

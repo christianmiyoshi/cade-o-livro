@@ -36,9 +36,10 @@ Sistema de gerenciamento de coleção de livros e mangás para usuários brasile
 
 ## Funcionalidades
 
+- Dashboard com estatísticas da coleção e lançamentos recentes
 - Visualizar coleção completa de livros e mangás
 - Adicionar novos itens à coleção
-- Visualizar itens que ainda não possui (status: faltando)
+- Filtrar por status (tenho/faltantes) em cada coleção
 - Login com OAuth (mockado)
 
 ## Tecnologias Utilizadas
